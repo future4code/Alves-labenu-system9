@@ -1,12 +1,12 @@
 import { Usuario } from "./Usuario";
 
-export class Estudante extends Usuario {
+export class Docente extends Usuario {
     idUsuario:string;
     name: string;
     email: string;
     dataNasc: Date;
     turmaId:string;
-    hobbyId:string;
+    especialidade:Especialidade;
 
 constructor(
     idUsuario:string,
@@ -14,14 +14,14 @@ constructor(
     email: string,
     dataNasc: Date,
    turmaId:string,
-   hobbyId:string) {
+  especialidade:Especialidade) {
     super(idUsuario, name, email, dataNasc, turmaId)
     this.idUsuario = idUsuario;
     this.name = name;
     this.email = email;
     this.dataNasc = dataNasc;
     this.turmaId = turmaId;
-    this.hobbyId = hobbyId
+    this.especialidade = especialidade;
    }
    getidUsuario(){
     return this.idUsuario
@@ -38,9 +38,10 @@ getDataNasc(){
 getTurmaId(){
     return this.turmaId
 }
-getHobby(){
-    return this.hobbyId
+getEspecialidade(){
+    return this.especialidade
 }
+
 setidUsuario(){
     return this.idUsuario
 }
@@ -56,9 +57,7 @@ setDataNasc(){
 setTurmaId(){
     return this.turmaId
 }
-setHobby(){
-    return this.hobbyId
+setEspecialidade(){
+    return this.especialidade
 }
-
-
 }
