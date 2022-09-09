@@ -2,9 +2,9 @@ export class Usuario {
     constructor(
         public idUsuario:string,
     public name: string,
-    private email: string,
-    private dataNasc: Date,
-    private turmaId:string) {
+    public email: string,
+    public dataNasc: Date,
+    public turmaId:string) {
 
     }
 
