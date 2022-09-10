@@ -4,7 +4,7 @@ export class Estudante {
     private email: string;
     private dataNasc: Date;
     private turmaId:string;
-
+    
     constructor(
         nome: string,
         email: string,
@@ -35,5 +35,4 @@ export class Estudante {
     getTurmaId(){
         return this.turmaId
     }
-
 }
