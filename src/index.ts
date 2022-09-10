@@ -1,12 +1,22 @@
 import { app } from "./app";
+import { EstudanteEndpoint } from "./Endpoints/EstudanteEndpoint";
+import { TurmaEndpoint } from "./Endpoints/TurmaEndpoint";
 
-app.post("/turma")
+//TURMA
+const turma = new TurmaEndpoint()
+app.post("/turma", turma.create)
 
-app.post("/estudante")
+app.get("/turmas-ativas", turma.ativa)
+
+app.post("/define-modulo", turma.modificaModulo)
+
+//ESTUDANTE
+const estudante = new EstudanteEndpoint()
+app.post("/estudante", estudante.create)
+
+app.get("/estudante", estudante.search)
 
 app.post("/docente")
-
-app.post("./turma")
 
 app.put("/estudante")
 

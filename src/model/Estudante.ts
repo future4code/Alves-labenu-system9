@@ -1,26 +1,39 @@
-import { Usuario } from "./Usuario";
+export class Estudante {
+    private id: string = String(Date.now())
+    private nome: string;
+    private email: string;
+    private dataNasc: Date;
+    private turmaId:string;
 
-export class Estudante extends Usuario {
-    idUsuario:string;
-    name: string;
-     email: string;
-     dataNasc: Date;
-    turmaId:string;
-    hobbyId:string;
-
-constructor(
-    idUsuario:string,
-    name: string,
-    email: string,
-    dataNasc: Date,
-   turmaId:string,
-   hobbyId:string) {
-    super(idUsuario, name, email, dataNasc, turmaId)
-    this.idUsuario = idUsuario;
-    this.name = name;
-    this.email = email;
-    this.dataNasc = dataNasc;
-    this.turmaId = turmaId;
-    this.hobbyId = hobbyId
+    constructor(
+        nome: string,
+        email: string,
+        dataNasc: Date,
+        turmaId:string,) {
+        this.nome = nome;
+        this.email = email;
+        this.dataNasc = dataNasc;
+        this.turmaId = turmaId;
    }
+
+    getId(){
+        return this.id
+    }
+
+    getNome(){
+        return this.nome
+    }
+
+    getEmail(){
+        return this.email
+    }
+
+    getDataNasc(){
+        return this.dataNasc
+    } 
+
+    getTurmaId(){
+        return this.turmaId
+    }
+
 }
