@@ -4,15 +4,15 @@ import dotenv from "dotenv"
 dotenv.config()
 
 
-class BaseDataBase {
+ abstract class BaseDataBase {
 
  
-    private connetion: Knex | null = null;
+    private static connetion: Knex | null = null;
 
-    protected getConnetion() {
+    protected getConnetion():Knex {
     
-        if (!this.connetion) {
-            this.connetion = knex({
+        if (!BaseDataBase.connetion) {
+            BaseDataBase.connetion = knex({
                 client: "mysql",
                 connection: {
                     host: process.env.DB_HOST,
@@ -24,7 +24,7 @@ class BaseDataBase {
             })
         }
 
-        return this.connetion
+        return BaseDataBase.connetion
     }
 }
 export default BaseDataBase

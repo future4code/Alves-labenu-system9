@@ -1,6 +1,11 @@
 import { app } from "./app";
+import { TurmaEndpoint } from "./Endpoints/TurmaEndpoint";
 
-app.post("/turma")
+const turma = new TurmaEndpoint()
+
+app.post("/turma", turma.create)
+
+app.get("/turma-ativa", turma.ativa)
 
 app.post("/estudante")
 

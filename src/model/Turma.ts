@@ -1,23 +1,18 @@
 export class Turma {
-    turmaId:string;
-    name: string;
-    idEstudantes: string;
-    idDocentes: string;
-    modulo:number;
-   
+  private turmaId: string | undefined = Date.now().toString();
+  private name: string | undefined
+  private modulo: string | undefined
 
-constructor(
-    turmaId:string,
-    name: string,
-    idEstudantes: string,
-    idDocentes: string,
-    modulo:number) {
-    
-    this.turmaId= turmaId;
+  constructor(name: string, turmaId?:string, modulo?:string) {
     this.name = name;
-    this.idEstudantes = idEstudantes;
-    this.idDocentes = idDocentes;
-    this.modulo= modulo
-    
-   }
+    this.turmaId = turmaId;
+    this.modulo = modulo;
+
+  }
+  public getId() {
+    return this.turmaId
+  }
+  public getNome() {
+return this.name
+  }
 }
