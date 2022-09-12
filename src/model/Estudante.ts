@@ -1,21 +1,15 @@
-export class Estudante {
-    private id: string = String(Date.now())
-    private nome: string;
-    private email: string;
-    private dataNasc: Date;
-    private turmaId:string;
-    
-    constructor(
-        nome: string,
-        email: string,
-        dataNasc: Date,
-        turmaId:string,) {
-        this.nome = nome;
-        this.email = email;
-        this.dataNasc = dataNasc;
-        this.turmaId = turmaId;
-   }
 
+export class Estudante extends Usuario {
+  constructor(
+    id:string,
+    name: string,
+    email: string,  
+      dataNasc: Date,
+    turmaId: string,
+  ) {
+    super(id, name, email, dataNasc, turmaId);
+  }
+}
     getId(){
         return this.id
     }
@@ -36,3 +30,5 @@ export class Estudante {
         return this.turmaId
     }
 }
+  
+

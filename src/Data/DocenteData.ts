@@ -1,27 +1,24 @@
-import { Docente } from './../model/Docente';
+import { Docente } from "./../model/Docente";
 import BaseDataBase from "./BaseDataBase";
 
-class EstudanteData extends BaseDataBase {
+class DocenteData extends BaseDataBase {
+  async insertUser(docente: Docente): Promise<void> {
+    await this.getConnetion()
+      .insert({
+        idUsuario: docente.getidUsuario(),
+        name: docente.getName(),
+        email: docente.getEmail(),
+        dataNasc: docente.getDataNasc(),
+        turmaId: docente.getTurmaId(),
+      })
+      .into("Docente");
+  }
 
-    async insertUser(docente: Docente): Promise<void> {
-       
-        await this.getConnetion()
-            .insert({
-                idUsuario:docente.getidUsuario(),
-                name: docente.getName(),
-                email: docente.getEmail(),
-                dataNasc:docente.getDataNasc(),
-                turmaId:docente.getTurmaId(),
-                hobbyId:docente.getEspecialidade(),
-            })
-            .into("Estudante")
-    }
+  async selectDocentes() {
+    const result = await this.getConnetion().select("*").from("Estudante");
 
-    async selectEstudantes(){
-        const result = await this.getConnetion().select("*").from("Estudante")
-
-        return result
-    }
+    return result;
+  }
 }
 
-export default EstudanteData
+export default DocenteData;

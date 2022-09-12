@@ -4,12 +4,15 @@ import dotenv from "dotenv"
 dotenv.config()
 
 
+
 export abstract class BaseDataBase {
+
+
 
  
     private static connetion: Knex | null = null;
 
-    protected getConnetion() {
+    protected getConnetion():Knex {
     
         if (!BaseDataBase.connetion) {
             BaseDataBase.connetion = knex({
