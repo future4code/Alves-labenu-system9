@@ -4,7 +4,10 @@ import dotenv from "dotenv"
 dotenv.config()
 
 
- abstract class BaseDataBase {
+
+export abstract class BaseDataBase {
+
+
 
  
     private static connetion: Knex | null = null;
@@ -17,7 +20,7 @@ dotenv.config()
                 connection: {
                     host: process.env.DB_HOST,
                     user: process.env.DB_USER,
-                    database: process.env.DB_DATABASE,
+                    database: process.env.DB_SCHEMA,
                     password: process.env.DB_PASSWORD,
                     port: 3306
                 }
@@ -27,4 +30,3 @@ dotenv.config()
         return BaseDataBase.connetion
     }
 }
-export default BaseDataBase

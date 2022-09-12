@@ -1,35 +1,59 @@
-import { TurmaData } from "./../Data/TurmaData";
+
 import { Request, Response } from "express";
-import { MissingFields } from "../error/MissingFields";
+import { TurmaData } from "../Data/TurmaData";
 import { Turma } from "../model/Turma";
 
 export class TurmaEndpoint {
-  async create(req: Request, res: Response) {
-    try {
-      const { nome } = req.body;
+    //CRIAR TURMA
+    async create(req:Request, res: Response) {
+       try {
+        const {nome} = req.body
 
-      if (!nome) {
-        throw new MissingFields();
-      }
-      const turma = new Turma(nome);
-      const turmaData = new TurmaData();
+        const turma = new Turma(nome)
+        const turmaData = new TurmaData()
 
-      const response = await turmaData.createTurma(turma)
+        const response = await turmaData.criarTurma(turma)
 
-      res.status(201).send(response)
-    } catch (error: any) {
-      res.status(error.statusCode || 500 ).send({ message: error.message || error.sqlMessage });
+        res.status(201).send({message: response})
+
+       } catch (error) {
+        console.log(error)
+       }
     }
-  }
-  async ativa(req:Request, res:Response){
-    try {
-      const turmadata = new TurmaData()
 
-      const turmasAtivas = await turmadata.selectAtivas();
+    //BUSCAR TURMAS ATIVAS
+    async ativa(req: Request, res: Response){
+        try {
+            const turmaData = new TurmaData()
 
-      res.status(200).send(turmasAtivas)
-    } catch (error:any) {
-      res.status(error.statusCode || 500 ).send({ message: error.message || error.sqlMessage });
+            const turmasAtivas = await turmaData.turmasAtivas()
+
+            res.status(201).send({message: turmasAtivas})
+ 
+        } catch (error) {
+         console.log(error)
+        }
     }
-  }
+
+    //DEFINIR MODULO
+    async modificaModulo(req: Request, res: Response){
+        try {
+            const {id, modulo} = req.body
+            const turmaData = new TurmaData()
+
+            const moduloRedefinido = await turmaData.definirModulo(id, modulo)
+
+            res.status(201).send({message: moduloRedefinido})
+ 
+        } catch (error) {
+         console.log(error)
+        }
+     }
+
+
+
 }
+
+
+
+

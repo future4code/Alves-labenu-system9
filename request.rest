@@ -1,0 +1,46 @@
+//CRIAR TURMA
+POST http://localhost:3003/turma
+Content-Type: application/json
+
+{
+  "nome": "Silveira"
+}
+
+###
+
+//BUSCAR TURMAS ATIVAS
+GET http://localhost:3003/turmas-ativas
+
+###
+
+//REDEFINE MODULO
+POST http://localhost:3003/define-modulo
+Content-Type: application/json
+
+{
+  "id": "1662768984989",
+  "modulo": 1
+}
+
+###
+
+//CRIA ALUNO
+POST http://localhost:3003/estudante
+Content-Type: application/json
+
+{
+  "nome": "Gilead Raab", 
+  "email": "gileadraab@email.com", 
+  "dataNasc": "13/01/1992", 
+  "turmaId": "1662768984989"
+}
+
+###
+
+//BUSCA ALUNO POR NOME
+GET http://localhost:3003/estudante
+Content-Type: application/json
+
+{
+  "nome": "Gilead Raab"
+}

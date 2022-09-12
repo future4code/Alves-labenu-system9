@@ -1,3 +1,4 @@
+
 export abstract class Usuario {
   constructor(
     private id: string,
@@ -6,6 +7,7 @@ export abstract class Usuario {
     private dataNasc: Date,
     private turmaId: string
   ) {}
+
 
   getidUsuario() {
     return this.id;
