@@ -1,46 +1,29 @@
+import { DocenteEndpoint } from './Endpoints/DocenteEndpoint';
 import { app } from "./app";
 
 import { EstudanteEndpoint } from "./Endpoints/EstudanteEndpoint";
 import { TurmaEndpoint } from "./Endpoints/TurmaEndpoint";
 
 //TURMA
-const turma = new TurmaEndpoint()
-app.post("/turma", turma.create)
+const turma = new TurmaEndpoint();
+const estudante = new EstudanteEndpoint();
+const docente = new DocenteEndpoint();
 
-import { TurmaEndpoint } from "./Endpoints/TurmaEndpoint";
+app.post("/turma", turma.create);
 
-const turma = new TurmaEndpoint()
+app.get("/turma-ativa", turma.ativa);
 
-app.post("/turma", turma.create)
+app.post("/define-modulo/:id", turma.modificaModulo);
 
-app.get("/turma-ativa", turma.ativa)
+app.post("/estudante", estudante.create);
 
+app.get("/estudante", estudante.search);
 
+app.put("/estudante/mudaTurma", estudante.mudarTurma);
 
-app.post("/define-modulo", turma.modificaModulo)
+app.post("/docente", docente.create);
 
+app.put("/docente", docente.search);
 
-const estudante = new EstudanteEndpoint()
-app.post("/estudante", estudante.create)
+app.post("/docente/mudarTurma", docente.mudarTurma)
 
-app.get("/estudante", estudante.search)
-
-app.post("/docente")
-
-app.put("/estudante")
-
-app.put("/docente")
-
-app.get("/idade/:id")
-
-app.get("/turmas")
-
-app.put("/turmas/modulo")
-
-app.get("/estudante/:name")
-
-app.put("/estudante/turma")
-
-app.get("/docentes")
-
-app.put("/docente/turma")

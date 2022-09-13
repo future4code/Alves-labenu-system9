@@ -7,39 +7,14 @@ export class EstudanteData extends BaseDataBase{
   async criarEstudante(estudante: Estudante){
 
     await this.getConnetion().insert({
-      id: estudante.getId(),
-      nome: estudante.getNome(), 
+      id: estudante.getidUsuario(),
+      nome: estudante.getName(), 
       email: estudante.getEmail(), 
       data_nasc: estudante.getDataNasc(), 
       turma_id: estudante.getTurmaId(), 
     }).into("Estudante")
 
-    return `Estudante ${estudante.getNome()} criado com sucesso.`
-  }
-
-  async busca(nome: string){
-    const result = await this.getConnetion()
-    .select("*")
-    .from("Estudante")
-    .where({nome})
-
-    return result
-  }
-}
-
-class EstudanteData extends BaseDataBase {
-  async insertUser(estudante: Estudante) {
-    await this.getConnetion()
-      .insert({
-        idUsuario: estudante.getidUsuario(),
-        name: estudante.getName(),
-        email: estudante.getEmail(),
-        dataNasc: estudante.getDataNasc(),
-        turmaId: estudante.getTurmaId(),
-      })
-      .into("Estudante");
-
-    return `Estudante com nome ${estudante.getName()} criado com sucesso`;
+    return `Estudante ${estudante.getName()} criado com sucesso.`
   }
 
   async selectEstudantesEmail(email: string) {

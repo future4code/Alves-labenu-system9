@@ -1,59 +1,67 @@
-
 import { Request, Response } from "express";
 import { TurmaData } from "../Data/TurmaData";
+import { MissingFields } from "../error/MissingFields";
 import { Turma } from "../model/Turma";
 
 export class TurmaEndpoint {
-    //CRIAR TURMA
-    async create(req:Request, res: Response) {
-       try {
-        const {nome} = req.body
+  //CRIAR TURMA
+  async create(req: Request, res: Response) {
+    try {
+      const { nome } = req.body;
 
-        const turma = new Turma(nome)
-        const turmaData = new TurmaData()
+      if (!nome) {
+        throw new MissingFields();
+      }
 
-        const response = await turmaData.criarTurma(turma)
+      const turma = new Turma(nome);
+      const turmaData = new TurmaData();
 
-        res.status(201).send({message: response})
+      const response = await turmaData.createTurma(turma);
 
-       } catch (error) {
-        console.log(error)
-       }
+      res.status(201).send({ message: response });
+    } catch (error: any) {
+      res
+        .status(error.statusCode || 500)
+        .send({ message: error.message || error.sqlMessage });
     }
+  }
 
-    //BUSCAR TURMAS ATIVAS
-    async ativa(req: Request, res: Response){
-        try {
-            const turmaData = new TurmaData()
+  //BUSCAR TURMAS ATIVAS
+  async ativa(req: Request, res: Response) {
+    try {
+      const turmaData = new TurmaData();
 
-            const turmasAtivas = await turmaData.turmasAtivas()
+      const turmasAtivas = await turmaData.selectAtivas();
 
-            res.status(201).send({message: turmasAtivas})
- 
-        } catch (error) {
-         console.log(error)
-        }
+      res.status(201).send({ message: turmasAtivas });
+    } catch (error: any) {
+      res
+        .status(error.statusCode || 500)
+        .send({ message: error.message || error.sqlMessage });
     }
+  }
 
-    //DEFINIR MODULO
-    async modificaModulo(req: Request, res: Response){
-        try {
-            const {id, modulo} = req.body
-            const turmaData = new TurmaData()
+  //DEFINIR MODULO
+  async modificaModulo(req: Request, res: Response) {
+    try {
+      const { id, modulo } = req.body;
 
-            const moduloRedefinido = await turmaData.definirModulo(id, modulo)
+      if (!modulo) {
+        throw new Error("modulo inexistente");
+      }
+      if (modulo < 0 || modulo > 6) {
+        throw new Error("só existem 6 módulos");
+      }
 
-            res.status(201).send({message: moduloRedefinido})
- 
-        } catch (error) {
-         console.log(error)
-        }
-     }
+      const turmaData = new TurmaData();
 
+      const moduloRedefinido = await turmaData.createModulo(id, modulo);
 
-
+      res.status(201).send({ message: moduloRedefinido });
+    } catch (error: any) {
+      res
+        .status(error.statusCode || 500)
+        .send({ message: error.message || error.sqlMessage });
+    }
+  }
 }
-
-
-
-

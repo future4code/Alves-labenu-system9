@@ -1,45 +1,98 @@
+import { TurmaData } from "./../Data/TurmaData";
 import { Request, Response } from "express";
 import { EstudanteData } from "../Data/EstudanteData";
 import { Estudante } from "../model/Estudante";
+import { EmailJaCadastrado } from "../error/emailJaCacastrado";
+import { MissingFields } from "../error/MissingFields";
 
 export class EstudanteEndpoint {
-    //CRIAR ALUNO
-    async create(req:Request, res: Response) {
-       try {
-        const {nome, email, dataNasc, turmaId} = req.body
+  //CRIAR ALUNO
+  async create(req: Request, res: Response) {
+    try {
+      const { nome, email, dataNasc, turmaId } = req.body;
 
-        if(!nome || !email || !dataNasc || !turmaId) {
-            throw new Error("Dados requeridos incompletos, você deve preencher todos os campos");  
-        }
-        
-        const [day, month, year] = dataNasc.split('/')
-        const dateOfBirth: Date = new Date (`${year}-${month}-${day}`)
+      if (!nome || !email || !dataNasc || !turmaId) {
+        throw new Error(
+          "Dados requeridos incompletos, você deve preencher todos os campos"
+        );
+      }
+      const estudanteData = new EstudanteData();
 
-        const estudante = new Estudante(nome, email, dateOfBirth, turmaId)
+      const turmaData = new TurmaData();
 
-        const estudanteData = new EstudanteData()
+      const verificaEmail = await estudanteData.selectEstudantesEmail(email);
 
-        const response = await estudanteData.criarEstudante(estudante)
+      if (verificaEmail) {
+        throw new EmailJaCadastrado();
+      }
 
-        res.status(201).send({message: response})
-       } catch (error) {
-        
-       }
+      const [day, month, year] = dataNasc.split("/");
+      const dateOfBirth: Date = new Date(`${year}-${month}-${day}`);
+
+      const id = Date.now().toString();
+
+      const estudante = new Estudante(id, nome, email, dateOfBirth, turmaId);
+
+      const response = await estudanteData.criarEstudante(estudante);
+
+      res.status(201).send({ message: response });
+    } catch (error: any) {
+      res
+        .status(error.statusCode || 500)
+        .send({ message: error.message || error.sqlMessage });
     }
+  }
 
-    //BUSCAR USUARIO
-    async search(req: Request, res: Response){
-        try {
-            const {nome} = req.body
+  //BUSCAR USUARIO
+  async search(req: Request, res: Response) {
+    try {
+      const { nome } = req.body;
 
-            const estudanteData = new EstudanteData()
+      const estudanteData = new EstudanteData();
 
-            const estudantePorNome = await estudanteData.busca(nome)
+      const estudantePorNome = await estudanteData.selectEstudantesNome(nome);
 
-            res.status(201).send({message: estudantePorNome})
- 
-        } catch (error) {
-         console.log(error)
-        }
+      if (!estudantePorNome) {
+        throw new MissingFields();
+      }
+
+      res.status(201).send({ message: estudantePorNome });
+    } catch (error: any) {
+      res
+        .status(error.statusCode || 500)
+        .send({ message: error.message || error.sqlMessage });
     }
+  }
+  async mudarTurma(req: Request, res: Response) {
+    try {
+      const { email } = req.params;
+      const { TurmaId } = req.body;
+
+      const estudanteData = new EstudanteData();
+
+      const verificaEstudanteEmail = await estudanteData.selectEstudantesEmail(
+        email
+      );
+
+      if (!verificaEstudanteEmail) {
+        throw new Error("Usuario não encontrado");
+      }
+
+      const turmaData = new TurmaData();
+
+      const verificaIdTurma = await turmaData.buscaTurmaId(TurmaId);
+
+      if (!verificaIdTurma) {
+        throw new Error("Turma não encontrada");
+      }
+
+      const response = await estudanteData.trocaEstudanteTurma(email, TurmaId);
+
+      res.status(200).send({ message: response });
+    } catch (error: any) {
+      res
+        .status(error.statusCode || 500)
+        .send({ message: error.message || error.sqlMessage });
+    }
+  }
 }
